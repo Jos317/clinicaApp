@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'ClinicaApp',
-        initialRoute: 'login',
+        initialRoute: 'home',
         routes: {
           'login': (_) => LoginScreen(),
           'home': (_) => HomeScreen(),
