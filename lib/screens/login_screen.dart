@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:clinica/providers/server_provider.dart';
+import 'package:clinica/widgets/helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:clinica/providers/usuarioprovider.dart';
+import 'package:clinica/providers/paciente_provider.dart';
 import 'package:clinica/ui/input_decorations.dart';
 import 'package:clinica/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -14,24 +16,23 @@ class LoginScreen extends StatelessWidget {
             child: SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 250),
+          const SizedBox(height: 250),
           CardContainer(
             child: Column(
               children: [
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
                   'Login',
                   style: Theme.of(context).textTheme.headline4,
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 _LoginForm()
               ],
             ),
           ),
-          SizedBox(height: 50),
-          Text('Crear una nueva cuenta',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
+          // const Text('Crear una nueva cuenta', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          // const SizedBox(height: 50),
         ],
       ),
     )));
@@ -45,7 +46,7 @@ class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final loginForm = Provider.of<LoginFormProvider>(context);
-    final usuarioProvider = Provider.of<UsuarioProvider>(context);
+    final pacienteProvider = Provider.of<PacienteProvider>(context);
 
     return Container(
       child: Form(
@@ -76,7 +77,7 @@ class _LoginForm extends StatelessWidget {
               },
               controller: email,
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             TextFormField(
               autocorrect: false,
               obscureText: true,
@@ -94,7 +95,7 @@ class _LoginForm extends StatelessWidget {
               },
               controller: password,
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             MaterialButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
@@ -102,12 +103,12 @@ class _LoginForm extends StatelessWidget {
                 elevation: 0,
                 color: Colors.deepPurple,
                 child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
-                    child: Text('Ingresar',
+                    padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                    child: const Text('Ingresar',
                         style: TextStyle(color: Colors.white))),
                 onPressed: () {
                   FocusScope.of(context).unfocus();
-                  login(email.text, password.text, context, usuarioProvider);
+                  login(email.text, password.text, context, pacienteProvider);
                 }
 
                 // onPressed: loginForm.isLoading
@@ -127,29 +128,31 @@ class _LoginForm extends StatelessWidget {
     );
   }
 
-  login(String email, String password, BuildContext context,
-      UsuarioProvider usuarioProvider) async {
+  login(String email, String password, BuildContext context, PacienteProvider usuarioProvider) async {
+    mostrarLoading(context);
+    final url = ServerProvider().url;
     final response = await http.post(
-        Uri.parse('http://192.168.100.126:8000/api/login'),
+        Uri.parse(url+'/api/login'),
         body: {'email': email, 'password': password});
     final respuesta = jsonDecode(response.body);
+    Navigator.pop(context);
     if (200 == response.statusCode) {
-      usuarioProvider.id = respuesta['data']['id'];
-      usuarioProvider.email = respuesta['data']['email'];
+      usuarioProvider.token = respuesta['token'];
       Navigator.pushReplacementNamed(context, 'pacientes');
     } else {
       final mensajeErroneo = jsonEncode(respuesta['mensaje']);
-      return ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Row(
-            children: [
-              Icon(Icons.close),
-              SizedBox(width: 20),
-              Expanded(child: Text(mensajeErroneo))
-            ],
-          ),
-        ),
-      );
+      mostrarAlerta(context, 'Error', mensajeErroneo);
+      // return ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Row(
+      //       children: [
+      //         const Icon(Icons.close),
+      //         const SizedBox(width: 20),
+      //         Expanded(child: Text(mensajeErroneo))
+      //       ],
+      //     ),
+      //   ),
+      // );
     }
   }
 }

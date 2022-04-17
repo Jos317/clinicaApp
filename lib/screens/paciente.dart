@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:clinica/providers/usuarioprovider.dart';
+import 'package:clinica/providers/paciente_provider.dart';
 import 'package:provider/provider.dart';
 // import 'Services.dart';
 
@@ -25,11 +25,11 @@ class _PacienteState extends State<Paciente> {
 
   @override
   Widget build(BuildContext context) {
-    final usuarioProvider = Provider.of<UsuarioProvider>(context);
+    final pacienteProvider = Provider.of<PacienteProvider>(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(usuarioProvider.email),
+        title: Text(pacienteProvider.token),
       ),
       body: Container(
         color: Colors.white,
@@ -38,16 +38,14 @@ class _PacienteState extends State<Paciente> {
           itemCount: 10,
           itemBuilder: (context, index) {
             // Proveedor proveedor = _proveedores[index];
-            return Card(
+            return const Card(
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: EdgeInsets.all(20.0),
                 // child: Text(
                 //   "${proveedor.nombre}\n${proveedor.correo}\n${proveedor.telefono}",
                 //   style: TextStyle(fontSize: 22.0),
                 // ),
-                child: Text("Hola",
-                  style: TextStyle(fontSize: 22.0),
-                ),
+                child: Text("Hola", style: TextStyle(fontSize: 22.0)),
               ),
             );
           },

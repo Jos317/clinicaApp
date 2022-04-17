@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:clinica/providers/usuarioprovider.dart';
+import 'package:clinica/providers/paciente_provider.dart';
 import 'package:clinica/screens/screens.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => UsuarioProvider())
+        ChangeNotifierProvider(create: (_) => PacienteProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
