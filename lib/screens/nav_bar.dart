@@ -1,23 +1,33 @@
+import 'package:clinica/providers/paciente_provider.dart';
+import 'package:clinica/providers/server_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+  final pacienteProvider = Provider.of<PacienteProvider>(context, listen: false).paciente;
     return Drawer(
       child: ListView(
         // Remove padding
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountName: const Text('Oflutter.com'),
-            accountEmail: const Text('example@gmail.com'),
+            accountName: Text('${pacienteProvider!.nombre} ${pacienteProvider.email}'),
+            accountEmail: Text(pacienteProvider.email),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
-                child: Image.network(
-                  'https://oflutter.com/wp-content/uploads/2021/02/girl-profile.png',
-                  fit: BoxFit.cover,
-                  width: 90,
-                  height: 90,
+                child: (pacienteProvider.imagen == '' ? 
+                  Image.network('https://oflutter.com/wp-content/uploads/2021/02/girl-profile.png',
+                    fit: BoxFit.cover,
+                    width: 90,
+                    height: 90,
+                  ):
+                  Image.network('${ServerProvider().url}/${pacienteProvider.imagen}',
+                    fit: BoxFit.cover,
+                    width: 90,
+                    height: 90,
+                  )
                 ),
               ),
             ),

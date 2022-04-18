@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:clinica/providers/server_provider.dart';
 import 'package:clinica/widgets/helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:clinica/providers/paciente_provider.dart';
 import 'package:clinica/ui/input_decorations.dart';
 import 'package:clinica/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -12,30 +11,32 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: AuthBackground(
-            child: SingleChildScrollView(
-      child: Column(
-        children: [
-          const SizedBox(height: 250),
-          CardContainer(
-            child: Column(
-              children: [
-                const SizedBox(height: 10),
-                Text(
-                  'Login',
-                  style: Theme.of(context).textTheme.headline4,
+      body: AuthBackground(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 250),
+              CardContainer(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    Text(
+                      'Login',
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                    const SizedBox(height: 30),
+                    _LoginForm()
+                  ],
                 ),
-                const SizedBox(height: 30),
-                _LoginForm()
-              ],
-            ),
-          ),
-          const SizedBox(height: 50),
+              ),
+              const SizedBox(height: 50),
           // const Text('Crear una nueva cuenta', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           // const SizedBox(height: 50),
-        ],
-      ),
-    )));
+            ],
+          ),
+        )
+      )
+    );
   }
 }
 
@@ -46,7 +47,7 @@ class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final loginForm = Provider.of<LoginFormProvider>(context);
-    final pacienteProvider = Provider.of<PacienteProvider>(context);
+    final serverProvider = Provider.of<ServerProvider>(context);
 
     return Container(
       child: Form(
@@ -108,7 +109,7 @@ class _LoginForm extends StatelessWidget {
                         style: TextStyle(color: Colors.white))),
                 onPressed: () {
                   FocusScope.of(context).unfocus();
-                  login(email.text, password.text, context, pacienteProvider);
+                  login(email.text, password.text, context, serverProvider);
                 }
 
                 // onPressed: loginForm.isLoading
@@ -128,17 +129,17 @@ class _LoginForm extends StatelessWidget {
     );
   }
 
-  login(String email, String password, BuildContext context, PacienteProvider usuarioProvider) async {
+  login(String email, String password, BuildContext context, ServerProvider serverProvider) async {
     mostrarLoading(context);
-    final url = ServerProvider().url;
+    final url = serverProvider.url;
     final response = await http.post(
         Uri.parse(url+'/api/login'),
         body: {'email': email, 'password': password});
     final respuesta = jsonDecode(response.body);
     Navigator.pop(context);
     if (200 == response.statusCode) {
-      usuarioProvider.token = respuesta['token'];
-      Navigator.pushReplacementNamed(context, 'pacientes');
+      serverProvider.token = respuesta['token'];
+      Navigator.pushReplacementNamed(context, 'paciente');
     } else {
       final mensajeErroneo = jsonEncode(respuesta['mensaje']);
       mostrarAlerta(context, 'Error', mensajeErroneo);
