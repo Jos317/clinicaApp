@@ -16,7 +16,7 @@ class PacienteService {
       
       if (200 == response.statusCode) {
         final respuesta = jsonDecode(response.body);
-        print('aeea');
+        // print('aeea');
         print(respuesta);
         return PacienteModel.fromJson(respuesta['data']);
       } else {
