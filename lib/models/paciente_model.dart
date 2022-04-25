@@ -32,7 +32,7 @@ class PacienteModel {
     String telefono;
     String direccion;
     String sexo;
-    DateTime fechaNac;
+    String fechaNac;
     String email;
     String imagen;
     int estado;
@@ -47,7 +47,7 @@ class PacienteModel {
         telefono: json["telefono"],
         direccion: json["direccion"],
         sexo: json["sexo"],
-        fechaNac: DateTime.parse(json["fecha_nac"]),
+        fechaNac: json["fecha_nac"],
         email: json["email"],
         imagen: json["imagen"],
         estado: json["estado"],
@@ -63,7 +63,7 @@ class PacienteModel {
         "telefono": telefono,
         "direccion": direccion,
         "sexo": sexo,
-        "fecha_nac": "${fechaNac.year.toString().padLeft(4, '0')}-${fechaNac.month.toString().padLeft(2, '0')}-${fechaNac.day.toString().padLeft(2, '0')}",
+        "fecha_nac": fechaNac,
         "email": email,
         "imagen": imagen,
         "estado": estado,
