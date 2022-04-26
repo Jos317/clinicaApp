@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
           'home': (_) => HomeScreen(),
           'paciente': (_) => PacienteScreen(),
           'editar': (_) => EditarPerfilScreen(),
+          'notificacion': (_) => NotificacionScreen(),
         },
         
         theme:

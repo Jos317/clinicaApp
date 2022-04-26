@@ -25,7 +25,7 @@ class _EditarPerfilScreenState extends State<EditarPerfilScreen> {
   void dropdownCallback(String? selectedValue) {
     if (selectedValue is String) {
       setState(() {
-        _dropdownValue = selectedValue;
+        // _dropdownValue = selectedValue;
       });
     }
   }
@@ -190,24 +190,24 @@ class _EditarPerfilScreenState extends State<EditarPerfilScreen> {
                   SizedBox(
                     height: 35,
                   ),
-                  DropdownButton(
-                    items: [
-                      DropdownMenuItem<String>(
-                        child: Text((value.paciente!.sexo == 'M'
-                            ? 'Masculino'
-                            : 'Femenino')),
-                        value: (value.paciente!.sexo),
-                      ),
-                      DropdownMenuItem<String>(
-                        child: Text((value.paciente!.sexo == 'F'
-                            ? 'Femenino'
-                            : 'Masculino')),
-                        value: (value.paciente!.sexo),
-                      )
-                    ],
-                    value: _dropdownValue,
-                    onChanged: dropdownCallback,
-                  ),
+                  // DropdownButton(
+                  //   items: [
+                  //     DropdownMenuItem<String>(
+                  //       child: Text((value.paciente!.sexo == 'M'
+                  //           ? 'Masculino'
+                  //           : 'Femenino')),
+                  //       value: (value.paciente!.sexo),
+                  //     ),
+                  //     DropdownMenuItem<String>(
+                  //       child: Text((value.paciente!.sexo == 'F'
+                  //           ? 'Femenino'
+                  //           : 'Masculino')),
+                  //       value: (value.paciente!.sexo),
+                  //     )
+                  //   ],
+                  //   value: _dropdownValue,
+                  //   onChanged: dropdownCallback,
+                  // ),
                   TextFormField(
                       autocorrect: false,
                       keyboardType: TextInputType.emailAddress,

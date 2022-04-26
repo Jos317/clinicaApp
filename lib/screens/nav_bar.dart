@@ -58,7 +58,9 @@ class NavBar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.notifications),
             title: const Text('Request'),
-            onTap: () => null,
+            onTap: () => {
+              Navigator.pushReplacementNamed(context, 'notificacion')
+            },
             trailing: ClipOval(
               child: Container(
                 color: Colors.red,
