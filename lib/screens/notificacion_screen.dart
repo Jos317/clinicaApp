@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:clinica/screens/nav_bar.dart';
+import 'package:clinica/services/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:pusher_client/pusher_client.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 class NotificacionScreen extends StatefulWidget {
   @override
@@ -15,6 +20,7 @@ class _NotificacionScreenState extends State<NotificacionScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    tz.initializeTimeZones();
     initPusher();
   }
 
@@ -30,8 +36,7 @@ class _NotificacionScreenState extends State<NotificacionScreen> {
         child: ElevatedButton(
           child: Text('Woolha.com'),
           onPressed: () async {
-            print('pusheeeeeeeer');
-            initPusher();
+            NotificationService().showNotificacion(1, 'Botooon', 'Probandoooo', 5);
           },
         ),
       ),
@@ -72,6 +77,9 @@ class _NotificacionScreenState extends State<NotificacionScreen> {
     channel.bind('my-event', (event) {
       print('456');
       print(event!.data.toString());
+      print('77777777');
+      var respuesta = jsonDecode(event.data!);
+      NotificationService().showNotificacion(1, 'Nueva Consulta', "Usuario: ${respuesta[0]['email']}", 5);
     });
   }
 }

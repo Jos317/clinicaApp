@@ -1,10 +1,15 @@
 import 'package:clinica/providers/server_provider.dart';
+import 'package:clinica/services/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:clinica/providers/paciente_provider.dart';
 import 'package:clinica/screens/screens.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().initNotificacion();
+  runApp(MyApp());
+} 
 
 class MyApp extends StatelessWidget {
   @override
