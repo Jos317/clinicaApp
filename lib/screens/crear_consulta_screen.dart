@@ -6,31 +6,36 @@ class CrearConsultaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.deepPurpleAccent,
-        elevation: 1,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.deepPurpleAccent,
+          elevation: 1,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          centerTitle: true,
+          title: const Text('Creando Consulta'),
         ),
-        centerTitle: true,
-        title: const Text('Creando Consulta'),
-      ),
-      body: Form(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            BasicDateTimeField(),
-            SizedBox(height: 24),
-          ],
-        ),
-      ),
-    );
+        body: SingleChildScrollView(
+          child: Center(
+              child: Container(
+                  constraints: BoxConstraints(maxWidth: 600),
+                  child: BasicDateTimeField())),
+        ));
+    // body: Form(
+    //   child: Column(
+    //     crossAxisAlignment: CrossAxisAlignment.start,
+    //     children: <Widget>[
+    //       BasicDateTimeField(),
+    //       SizedBox(height: 24),
+    //     ],
+    //   ),
+    // ),
   }
 }
 

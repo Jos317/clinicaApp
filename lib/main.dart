@@ -40,6 +40,13 @@ class MyApp extends StatelessWidget {
         
         theme:
             ThemeData.light().copyWith(scaffoldBackgroundColor: Colors.grey[300]),
+        
+        supportedLocales: [
+          const Locale('en'), // English
+          const Locale('es'), // Spanish
+          const Locale('fr'), // French
+          const Locale('zh'), // Chinese
+        ],
         // home: JsonParseDemo(),
       ),
     );
