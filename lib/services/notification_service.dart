@@ -1,9 +1,15 @@
+import 'dart:convert';
+
+import 'package:clinica/main.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:pusher_client/pusher_client.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
 class NotificationService {
   static final NotificationService _notificationService = NotificationService._internal();
+  late PusherClient pusher;
+  late Channel channel;
 
   factory NotificationService() {
     return _notificationService;
@@ -31,7 +37,11 @@ class NotificationService {
           macOS: null
         );
   
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: (payload) {
+      keyNavegacionNotificacion.currentState!.pushNamed('notificacion');
+    },);
+
+    await initPusher();
   }
 
   Future<void> showNotificacion(int id, String title, String body, int seconds) async {
@@ -47,7 +57,7 @@ class NotificationService {
           channelDescription: 'Main channel notifications',
           importance: Importance.max,
           priority: Priority.max,
-          icon: 'app_icon'  
+          icon: 'app_icon',  
         ),
         iOS: IOSNotificationDetails(
           sound: 'default.wav',
@@ -56,8 +66,35 @@ class NotificationService {
           presentSound: true,
         ),
       ),
+      payload: 'test',
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       androidAllowWhileIdle: true,
     );
+  }
+
+  Future<void> initPusher() async {
+    print('123');
+
+    pusher = new PusherClient(
+      "72febab278198d502232",
+      PusherOptions(
+        cluster: "us2"
+      ),
+      enableLogging: true,
+    );
+
+    channel = pusher.subscribe("my-channel");
+
+    pusher.onConnectionStateChange((state) {
+      print("previousState: ${state!.previousState}, currentState: ${state.currentState}");
+    });
+
+    channel.bind('my-event', (event) {
+      print('456');
+      print(event!.data.toString());
+      print('77777777');
+      var respuesta = jsonDecode(event.data!);
+      showNotificacion(1, 'Nueva Consulta', "Usuario: ${respuesta[0]['email']}", 5);
+    });
   }  
 }
