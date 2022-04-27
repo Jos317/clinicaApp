@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:clinica/providers/paciente_provider.dart';
 import 'package:clinica/screens/screens.dart';
 import 'package:provider/provider.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
+final keyNavegacionNotificacion = GlobalKey<NavigatorState>(debugLabel: 'Texto');
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  tz.initializeTimeZones();
   NotificationService().initNotificacion();
   runApp(MyApp());
 } 
@@ -20,6 +24,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PacienteProvider())
       ],
       child: MaterialApp(
+        navigatorKey: keyNavegacionNotificacion,
         debugShowCheckedModeBanner: false,
         title: 'ClinicaApp',
         initialRoute: 'login',
