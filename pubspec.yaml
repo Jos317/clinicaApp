@@ -38,6 +38,7 @@ dependencies:
   http: ^0.13.4
   pusher_client: ^2.0.0
   flutter_local_notifications: ^9.4.1
+  datetime_picker_formfield: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -41,59 +41,20 @@ class NavBar extends StatelessWidget {
             ),
           ),
            ListTile(
-            leading: const Icon(Icons.favorite),
-            title: const Text('Favorites'),
-            onTap: () => null,
-          ),
-          ListTile(
             leading: const Icon(Icons.person),
-            title: const Text('Friends'),
-            onTap: () => null,
+            title: const Text('Perfil'),
+            onTap: () => Navigator.pushReplacementNamed(context, 'paciente'),
           ),
           ListTile(
-            leading: const Icon(Icons.share),
-            title: const Text('Share'),
-            onTap: () => null,
-          ),
-          ListTile(
-            leading: const Icon(Icons.notifications),
-            title: const Text('Request'),
-            onTap: () => {
-              Navigator.pushReplacementNamed(context, 'notificacion')
-            },
-            trailing: ClipOval(
-              child: Container(
-                color: Colors.red,
-                width: 20,
-                height: 20,
-                child: const Center(
-                  child: Text(
-                    '8',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          const Divider(),
-          ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Settings'),
-            onTap: () => null,
-          ),
-          ListTile(
-            leading: const Icon(Icons.description),
-            title: const Text('Policies'),
-            onTap: () => null,
+            leading: const Icon(Icons.terminal),
+            title: const Text('Consultas'),
+            onTap: () => Navigator.pushReplacementNamed(context, 'consulta'),
           ),
           const Divider(),
           ListTile(
             title: const Text('Exit'),
             leading: const Icon(Icons.exit_to_app),
-            onTap: () => null,
+            onTap: () => Navigator.pushReplacementNamed(context, 'login'),
           ),
         ],
       ),
