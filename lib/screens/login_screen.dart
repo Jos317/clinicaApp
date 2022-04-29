@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:clinica/providers/server_provider.dart';
+import 'package:clinica/services/shared_preferences.dart';
 import 'package:clinica/widgets/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:clinica/ui/input_decorations.dart';
 import 'package:clinica/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -47,7 +49,7 @@ class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // final loginForm = Provider.of<LoginFormProvider>(context);
-    final serverProvider = Provider.of<ServerProvider>(context);
+    // final serverProvider = Provider.of<ServerProvider>(context);
 
     return Container(
       child: Form(
@@ -109,7 +111,7 @@ class _LoginForm extends StatelessWidget {
                         style: TextStyle(color: Colors.white))),
                 onPressed: () {
                   FocusScope.of(context).unfocus();
-                  login(email.text, password.text, context, serverProvider);
+                  login(email.text, password.text, context);
                 }
 
                 // onPressed: loginForm.isLoading
@@ -129,9 +131,9 @@ class _LoginForm extends StatelessWidget {
     );
   }
 
-  login(String email, String password, BuildContext context, ServerProvider serverProvider) async {
+  login(String email, String password, BuildContext context) async {
     mostrarLoading(context);
-    final url = serverProvider.url;
+    final url = ServerProvider().url;
     final response = await http.post(
         Uri.parse(url+'/api/login'),
         body: {'email': email, 'password': password});
@@ -139,7 +141,8 @@ class _LoginForm extends StatelessWidget {
     // print(respuesta);
     Navigator.pop(context);
     if (200 == response.statusCode) {
-      serverProvider.token = respuesta['token'];
+      // serverProvider.token = respuesta['token'];
+      SharedPreferencesMemory().setearToken(respuesta['token']);
       Navigator.pushReplacementNamed(context, 'paciente');
     } else {
       final mensajeErroneo = jsonEncode(respuesta['mensaje']);

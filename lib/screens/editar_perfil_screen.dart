@@ -18,8 +18,8 @@ class _EditarPerfilScreenState extends State<EditarPerfilScreen> {
   void initState() {
     super.initState();
     serverProvider = Provider.of<ServerProvider>(context, listen: false);
-    Provider.of<PacienteProvider>(context, listen: false)
-        .setPaciente(serverProvider.token);
+    // Provider.of<PacienteProvider>(context, listen: false)
+    //     .setPaciente(serverProvider.token);
   }
 
   void dropdownCallback(String? selectedValue) {

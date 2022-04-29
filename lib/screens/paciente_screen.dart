@@ -19,9 +19,8 @@ class _PacienteState extends State<PacienteScreen> {
   @override
   void initState() {
     super.initState();
-    serverProvider = Provider.of<ServerProvider>(context, listen: false);
-    Provider.of<PacienteProvider>(context, listen: false)
-        .setPaciente(serverProvider.token);
+    serverProvider = ServerProvider();
+    Provider.of<PacienteProvider>(context, listen: false).setPaciente();
   }
 
   @override

@@ -14,9 +14,9 @@ class PacienteProvider extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  setPaciente(String token) async
+  setPaciente() async
   {
-    paciente = await PacienteService.getPaciente(token);
+    paciente = await PacienteService.getPaciente();
     notifyListeners();
   }
 

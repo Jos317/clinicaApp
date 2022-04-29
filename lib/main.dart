@@ -1,16 +1,19 @@
 import 'package:clinica/providers/providers.dart';
 import 'package:clinica/services/notification_service.dart';
+import 'package:clinica/services/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:clinica/screens/screens.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
 final keyNavegacionNotificacion = GlobalKey<NavigatorState>(debugLabel: 'Texto');
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   tz.initializeTimeZones();
   NotificationService().initNotificacion();
+  await SharedPreferencesMemory().init();
   runApp(MyApp());
 } 
 
@@ -19,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ServerProvider()),
+        // ChangeNotifierProvider(create: (_) => ServerProvider()),
         ChangeNotifierProvider(create: (_) => PacienteProvider()),
         ChangeNotifierProvider(create: (_) => MedicoProvider()),
       ],
@@ -29,7 +32,14 @@ class MyApp extends StatelessWidget {
         title: 'ClinicaApp',
         initialRoute: 'login',
         routes: {
-          'login': (_) => LoginScreen(),
+          'login': (_) {
+            if(SharedPreferencesMemory().obtenerToken() != null)
+            {
+              return PacienteScreen();
+            }else{
+              return LoginScreen();
+            }
+          },
           'home': (_) => HomeScreen(),
           'paciente': (_) => PacienteScreen(),
           'editar': (_) => EditarPerfilScreen(),

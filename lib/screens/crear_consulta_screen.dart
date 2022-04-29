@@ -31,27 +31,28 @@ class _CrearConsultaScreenState extends State<CrearConsultaScreen> {
   int _value = 1;
   late List<DropdownMenuItem<int>> _menuItems;
 
-  late var serverProvider;
-  List<MedicoModel> _medicos = [];
+  late List<MedicoModel> _medicos;
 
   @override
   void initState() {
     super.initState();
     
-    serverProvider = Provider.of<ServerProvider>(context, listen: false);
-    MedicosService.getMedicos(serverProvider.token).then((medicos) {
+    MedicosService.getMedicos().then((medicos) {
       setState(() {
         _medicos = medicos;
+
+        _menuItems = List.generate(
+          _medicos.length,
+          (i) => DropdownMenuItem(
+            value: _medicos[i].id,
+            child: Text("${_medicos[i].nombre}"),
+          ),
+        );
+        
       });
     });
 
-    _menuItems = List.generate(
-      _medicos.length,
-      (i) => DropdownMenuItem(
-        value: int.parse(_medicos[i]["id"]),
-        child: Text("${_medicos[i]["nombre"]}"),
-      ),
-    );
+    
   }
 
   @override
@@ -151,7 +152,7 @@ class _CrearConsultaScreenState extends State<CrearConsultaScreen> {
     if (time == null) return;
 
     setState(() {
-      dateTimefin = DateTime(
+      dateTime = DateTime(
         date.year,
         date.month,
         date.day,
@@ -169,7 +170,7 @@ class _CrearConsultaScreenState extends State<CrearConsultaScreen> {
     if (time == null) return;
 
     setState(() {
-      dateTime = DateTime(
+      dateTimefin = DateTime(
         date.year,
         date.month,
         date.day,

@@ -39,7 +39,7 @@ dependencies:
   pusher_client: ^2.0.0
   flutter_local_notifications: ^9.4.1
   datetime_picker_formfield: ^2.0.0
-
+  shared_preferences: ^2.0.13
 dev_dependencies:
   flutter_test:
     sdk: flutter

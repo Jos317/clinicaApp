@@ -8,7 +8,7 @@ class MedicoProvider extends ChangeNotifier {
 
   setMedicos(String token) async
   {
-    medicos = await MedicosService.getMedicos(token);
+    medicos = await MedicosService.getMedicos();
     notifyListeners();
   }
 
