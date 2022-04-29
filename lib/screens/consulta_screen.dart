@@ -1,7 +1,26 @@
+import 'package:clinica/models/consulta_model.dart';
 import 'package:clinica/screens/nav_bar.dart';
+import 'package:clinica/services/consultas_service.dart';
 import 'package:flutter/material.dart';
 
-class ConsultaScreen extends StatelessWidget {
+class ConsultaScreen extends StatefulWidget {
+  @override
+  State<ConsultaScreen> createState() => _ConsultaScreenState();
+}
+
+class _ConsultaScreenState extends State<ConsultaScreen> {
+  List<ConsultaModel> _consultas = [];
+
+  @override
+  void initState() {
+    super.initState();
+    ConsultasService.getConsultas().then((consultas) {
+      setState(() {
+        _consultas = consultas;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +45,9 @@ class ConsultaScreen extends StatelessWidget {
       body: Container(
         height: 700,
         child: ListView.builder(
+          itemCount: _consultas.length,
           itemBuilder: (ctx, index) {
+            ConsultaModel consulta = _consultas[index];
             return Stack(
               children: <Widget>[
                 Container(
@@ -74,7 +95,7 @@ class ConsultaScreen extends StatelessWidget {
                             Container(
                               width: MediaQuery.of(context).size.width * 0.42,
                               child: Text(
-                                'Motivo Motivo Motiv o Motivo Motivo',
+                                "${consulta.motivo}",
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -88,7 +109,7 @@ class ConsultaScreen extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              'HoraInicio',
+                              "${consulta.inicio}",
                               style: TextStyle(
                                 color: Colors.grey,
                               ),
@@ -100,7 +121,7 @@ class ConsultaScreen extends StatelessWidget {
                               // ),
                             ),
                             Text(
-                              'HoraFin',
+                              "${consulta.fin}",
                               style: TextStyle(
                                 color: Colors.grey,
                               ),
@@ -111,7 +132,7 @@ class ConsultaScreen extends StatelessWidget {
                           ],
                         ),
                         Padding(
-                          padding: EdgeInsets.all(12.0),
+                          padding: EdgeInsets.all(8.0),
                           child: Row(
                             children: <Widget>[
                               ElevatedButton.icon(
@@ -130,7 +151,6 @@ class ConsultaScreen extends StatelessWidget {
               ],
             );
           },
-          itemCount: 5,
         ),
       ),
     );

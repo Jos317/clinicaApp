@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class MedicoProvider extends ChangeNotifier {
   List<MedicoModel>? medicos = null; 
 
-  setMedicos(String token) async
+  setMedicos() async
   {
     medicos = await MedicosService.getMedicos();
     notifyListeners();

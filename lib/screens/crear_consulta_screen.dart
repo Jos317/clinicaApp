@@ -29,7 +29,7 @@ class _CrearConsultaScreenState extends State<CrearConsultaScreen> {
 
   
   int _value = 1;
-  late List<DropdownMenuItem<int>> _menuItems;
+   List<DropdownMenuItem<int>> _menuItems = [];
 
   late List<MedicoModel> _medicos;
 
@@ -81,6 +81,7 @@ class _CrearConsultaScreenState extends State<CrearConsultaScreen> {
         children: [
           CardContainer(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextFormField(
                   autocorrect: false,
@@ -109,7 +110,14 @@ class _CrearConsultaScreenState extends State<CrearConsultaScreen> {
                   onClicked: () => pickDateTime2(context),
                 ),
                 const SizedBox(height: 30),
+                Text('Seleccione al médico',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                ),),
                 DropdownButton<int>(
+                  isExpanded: true,
                   items: _menuItems,
                   value: _value,
                   onChanged: (value) => setState(() {
@@ -118,7 +126,9 @@ class _CrearConsultaScreenState extends State<CrearConsultaScreen> {
                   }),
                 ),
                 const SizedBox(height: 30),
-                MaterialButton(
+                Container(
+                  alignment: Alignment.center,
+                  child: MaterialButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     disabledColor: Colors.grey,
@@ -133,6 +143,8 @@ class _CrearConsultaScreenState extends State<CrearConsultaScreen> {
                       FocusScope.of(context).unfocus();
                       // login(email.text, password.text, context, serverProvider);
                     }),
+                ),
+                
               ],
             ),
           ),
