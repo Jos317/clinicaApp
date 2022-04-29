@@ -122,7 +122,7 @@ class _LoginForm extends StatelessWidget {
                 //         //TODO:validar si el login es correcto
                 //         loginForm.isLoading = false;
                 //         Navigator.pushReplacementNamed(context, 'proveedores');
-                ),
+            ),
           ],
         ),
       ),
@@ -136,6 +136,7 @@ class _LoginForm extends StatelessWidget {
         Uri.parse(url+'/api/login'),
         body: {'email': email, 'password': password});
     final respuesta = jsonDecode(response.body);
+    // print(respuesta);
     Navigator.pop(context);
     if (200 == response.statusCode) {
       serverProvider.token = respuesta['token'];

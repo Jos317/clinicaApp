@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-import 'package:clinica/models/paciente_model.dart';
+import 'package:clinica/models/medico_model.dart';
 import 'package:clinica/providers/server_provider.dart';
 import 'package:http/http.dart' as http;
 
-class PacienteService {
-  static Future<PacienteModel?> getPaciente(String token) async {
+class MedicosService {
+  static Future<List<MedicoModel>> getMedicos(String token) async {
     final urlPrincipal = ServerProvider().url;
-    final url = Uri.parse(urlPrincipal + '/api/obtenerPaciente');
+    final url = Uri.parse(urlPrincipal + '/api/obtenerMedicos');
     final response = await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -18,9 +18,11 @@ class PacienteService {
       final respuesta = jsonDecode(response.body);
       // print('aeea');
       print(respuesta);
-      return PacienteModel.fromJson(respuesta['data']);
+      final List<MedicoModel> medicos = medicoModelFromJson(jsonEncode(respuesta['data']));
+      return medicos;
     } else {
-      return null;
+      return List.empty();
     }
   }
 }
+

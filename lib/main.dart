@@ -1,7 +1,6 @@
-import 'package:clinica/providers/server_provider.dart';
+import 'package:clinica/providers/providers.dart';
 import 'package:clinica/services/notification_service.dart';
 import 'package:flutter/material.dart';
-import 'package:clinica/providers/paciente_provider.dart';
 import 'package:clinica/screens/screens.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -21,7 +20,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ServerProvider()),
-        ChangeNotifierProvider(create: (_) => PacienteProvider())
+        ChangeNotifierProvider(create: (_) => PacienteProvider()),
+        ChangeNotifierProvider(create: (_) => MedicoProvider()),
       ],
       child: MaterialApp(
         navigatorKey: keyNavegacionNotificacion,
@@ -41,12 +41,12 @@ class MyApp extends StatelessWidget {
         theme:
             ThemeData.light().copyWith(scaffoldBackgroundColor: Colors.grey[300]),
         
-        supportedLocales: [
-          const Locale('en'), // English
-          const Locale('es'), // Spanish
-          const Locale('fr'), // French
-          const Locale('zh'), // Chinese
-        ],
+        // supportedLocales: [
+        //   const Locale('en'), // English
+        //   const Locale('es'), // Spanish
+        //   const Locale('fr'), // French
+        //   const Locale('zh'), // Chinese
+        // ],
         // home: JsonParseDemo(),
       ),
     );
