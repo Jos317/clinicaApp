@@ -42,7 +42,7 @@ class NotificationService {
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onSelectNotification: (payload) {
-        keyNavegacionNotificacion.currentState!.pushNamed('notificacion');
+        keyNavegacionNotificacion.currentState!.pushNamed('consulta');
       },
     );
 
@@ -98,8 +98,10 @@ class NotificationService {
     final id = SharedPreferencesMemory().obtenerId();
     print('hola');
     print(id);
+    var pusherbind = "my-event_paciente_${id}";
+    print(pusherbind);
 
-    channel.bind('my-event_paciente_'+id, (event) {
+    channel.bind(pusherbind, (event) {
       print('456');
       print(event!.data.toString());
       print('77777777');
