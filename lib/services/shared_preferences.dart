@@ -22,4 +22,12 @@ class SharedPreferencesMemory{
   obtenerToken() {
     return prefs.getString('token');
   }
+
+  setearId(int id) async{
+    await prefs.setString('id', id.toString());  
+  }
+
+  obtenerId() {
+    return prefs.getString('id');
+  }
 }

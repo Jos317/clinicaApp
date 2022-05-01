@@ -142,6 +142,7 @@ class _LoginForm extends StatelessWidget {
     Navigator.pop(context);
     if (200 == response.statusCode) {
       // serverProvider.token = respuesta['token'];
+      SharedPreferencesMemory().setearId(respuesta['data']['id']);
       SharedPreferencesMemory().setearToken(respuesta['token']);
       Navigator.pushReplacementNamed(context, 'paciente');
     } else {

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:clinica/main.dart';
+import 'package:clinica/services/shared_preferences.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pusher_client/pusher_client.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -89,12 +90,17 @@ class NotificationService {
       print("previousState: ${state!.previousState}, currentState: ${state.currentState}");
     });
 
-    channel.bind('my-event', (event) {
-      print('456');
-      print(event!.data.toString());
-      print('77777777');
-      var respuesta = jsonDecode(event.data!);
-      showNotificacion(1, 'Nueva Consulta', "Usuario: ${respuesta[0]['email']}", 5);
+    final id = SharedPreferencesMemory().obtenerId();
+
+    channel.bind('my-event_paciente_${id}', (event) {
+
+      // print('456');
+      // print(event!.data.toString());
+      // print('77777777');
+      var respuesta = jsonDecode(event!.data!);
+      showNotificacion(1,
+      'Creaste una nueva consulta', 
+      "Motivo:${respuesta[0]['motivo']} Fecha y Hora de inicio: ${respuesta[0]['inicio']}", 5);
     });
   }  
 }

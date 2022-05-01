@@ -1,5 +1,6 @@
 import 'package:clinica/models/consulta_model.dart';
 import 'package:clinica/providers/consulta_provider.dart';
+import 'package:clinica/screens/crear_consulta_screen.dart';
 import 'package:clinica/screens/nav_bar.dart';
 import 'package:clinica/services/consultas_service.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,10 @@ class _ConsultaScreenState extends State<ConsultaScreen> {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.pushReplacementNamed(context, 'crear');
+              Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CrearConsultaScreen()),
+            );
             },
           ),
         ],
