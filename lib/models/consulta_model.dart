@@ -14,32 +14,32 @@ class ConsultaModel {
         required this.motivo,
         required this.inicio,
         required this.fin,
-        required this.idusuario,
         required this.idpaciente,
+        required this.medicoNombre,
     });
 
     int id;
     String motivo;
-    DateTime inicio;
-    DateTime fin;
-    int idusuario;
+    String inicio;
+    String fin;
     int idpaciente;
+    String medicoNombre;
 
     factory ConsultaModel.fromJson(Map<String, dynamic> json) => ConsultaModel(
         id: json["id"],
         motivo: json["motivo"],
-        inicio: DateTime.parse(json["inicio"]),
-        fin: DateTime.parse(json["fin"]),
-        idusuario: json["idusuario"],
+        inicio: json["inicio"],
+        fin: json["fin"],
         idpaciente: json["idpaciente"],
+        medicoNombre: json["medico_nombre"],
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
         "motivo": motivo,
-        "inicio": inicio.toIso8601String(),
-        "fin": fin.toIso8601String(),
-        "idusuario": idusuario,
+        "inicio": inicio,
+        "fin": fin,
         "idpaciente": idpaciente,
+        "medico_nombre": medicoNombre,
     };
 }

@@ -1,3 +1,4 @@
+import 'package:clinica/providers/consulta_provider.dart';
 import 'package:clinica/providers/providers.dart';
 import 'package:clinica/services/notification_service.dart';
 import 'package:clinica/services/shared_preferences.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         // ChangeNotifierProvider(create: (_) => ServerProvider()),
         ChangeNotifierProvider(create: (_) => PacienteProvider()),
         ChangeNotifierProvider(create: (_) => MedicoProvider()),
+        ChangeNotifierProvider(create: (_) => ConsultaProvider()),
       ],
       child: MaterialApp(
         navigatorKey: keyNavegacionNotificacion,
@@ -32,14 +34,7 @@ class MyApp extends StatelessWidget {
         title: 'ClinicaApp',
         initialRoute: 'login',
         routes: {
-          'login': (_) {
-            if(SharedPreferencesMemory().obtenerToken() != null)
-            {
-              return PacienteScreen();
-            }else{
-              return LoginScreen();
-            }
-          },
+          'login': (_) => LoginScreen(),
           'home': (_) => HomeScreen(),
           'paciente': (_) => PacienteScreen(),
           'editar': (_) => EditarPerfilScreen(),
@@ -47,7 +42,12 @@ class MyApp extends StatelessWidget {
           'crear': (_) => CrearConsultaScreen(),
           'notificacion': (_) => NotificacionScreen(),
         },
-        
+        // if(SharedPreferencesMemory().obtenerToken() != null)
+        //     {
+        //       return PacienteScreen();
+        //     }else{
+        //       return LoginScreen();
+        //     }
         theme:
             ThemeData.light().copyWith(scaffoldBackgroundColor: Colors.grey[300]),
         

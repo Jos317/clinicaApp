@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:clinica/models/medico_model.dart';
 import 'package:clinica/providers/providers.dart';
 import 'package:clinica/services/medicos_service.dart';
+import 'package:clinica/services/shared_preferences.dart';
 import 'package:clinica/ui/input_decorations.dart';
 import 'package:clinica/widgets/button_header_widget.dart';
+import 'package:clinica/widgets/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 import '../widgets/widgets.dart';
 
@@ -27,16 +32,17 @@ class _CrearConsultaScreenState extends State<CrearConsultaScreen> {
     return DateFormat('yyyy/MM/dd HH:mm').format(dateTimefin);
   }
 
-  
   int _value = 1;
-   List<DropdownMenuItem<int>> _menuItems = [];
+  List<DropdownMenuItem<int>> _menuItems = [];
 
   late List<MedicoModel> _medicos;
 
   @override
   void initState() {
     super.initState();
+
     
+
     MedicosService.getMedicos().then((medicos) {
       setState(() {
         _medicos = medicos;
@@ -48,11 +54,10 @@ class _CrearConsultaScreenState extends State<CrearConsultaScreen> {
             child: Text("${_medicos[i].nombre}"),
           ),
         );
-        
       });
     });
 
-    
+    Provider.of<MedicoProvider>(context, listen: false).setMedicos();
   }
 
   @override
@@ -61,6 +66,7 @@ class _CrearConsultaScreenState extends State<CrearConsultaScreen> {
         Provider.of<MedicoProvider>(context, listen: false).medicos;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent,
         elevation: 1,
@@ -76,83 +82,91 @@ class _CrearConsultaScreenState extends State<CrearConsultaScreen> {
         centerTitle: true,
         title: const Text('Creando Consulta'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CardContainer(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextFormField(
-                  autocorrect: false,
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecorations.authInputDecoration(
-                    hintText: 'Motivo',
-                    labelText: 'Motivo de la consulta',
-                    prefixIcon: Icons.text_fields,
+      body: Center(
+          child: Consumer<MedicoProvider>(builder: (context, value, child) {
+        if (value.medicos == null) {
+          return CircularProgressIndicator();
+        }
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CardContainer(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFormField(
+                    autocorrect: false,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecorations.authInputDecoration(
+                      hintText: 'Motivo',
+                      labelText: 'Motivo de la consulta',
+                      prefixIcon: Icons.text_fields,
+                    ),
+                    onChanged: (value) => value,
+                    validator: (value) {
+                      return (value != null) ? null : 'Ingrese el motivo';
+                    },
+                    controller: motivo,
                   ),
-                  onChanged: (value) => value,
-                  validator: (value) {
-                    return (value != null) ? null : 'Ingrese el motivo';
-                  },
-                  controller: motivo,
-                ),
-                const SizedBox(height: 30),
-                ButtonHeaderWidget(
-                  title: 'Inicio de la consulta',
-                  text: getText(),
-                  onClicked: () => pickDateTime(context),
-                ),
-                const SizedBox(height: 30),
-                ButtonHeaderWidget(
-                  title: 'Fin de la consulta',
-                  text: getText2(),
-                  onClicked: () => pickDateTime2(context),
-                ),
-                const SizedBox(height: 30),
-                Text('Seleccione al médico',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                ),),
-                DropdownButton<int>(
-                  isExpanded: true,
-                  items: _menuItems,
-                  value: _value,
-                  onChanged: (value) => setState(() {
-                    _value = value!;
-                    print(_value);
-                  }),
-                ),
-                const SizedBox(height: 30),
-                Container(
-                  alignment: Alignment.center,
-                  child: MaterialButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    disabledColor: Colors.grey,
-                    elevation: 0,
-                    color: Colors.deepPurple,
-                    child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 70, vertical: 15),
-                        child: const Text('Crear',
-                            style: TextStyle(color: Colors.white))),
-                    onPressed: () {
-                      FocusScope.of(context).unfocus();
-                      // login(email.text, password.text, context, serverProvider);
+                  const SizedBox(height: 30),
+                  ButtonHeaderWidget(
+                    title: 'Inicio de la consulta',
+                    text: getText(),
+                    onClicked: () => pickDateTime(context),
+                  ),
+                  const SizedBox(height: 30),
+                  ButtonHeaderWidget(
+                    title: 'Fin de la consulta',
+                    text: getText2(),
+                    onClicked: () => pickDateTime2(context),
+                  ),
+                  const SizedBox(height: 30),
+                  Text(
+                    'Seleccione al médico',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  DropdownButton<int>(
+                    isExpanded: true,
+                    items: _menuItems,
+                    value: _value,
+                    onChanged: (value) => setState(() {
+                      _value = value!;
+                      print(_value);
                     }),
-                ),
-                
-              ],
+                  ),
+                  const SizedBox(height: 30),
+                  Container(
+                    alignment: Alignment.center,
+                    child: MaterialButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        disabledColor: Colors.grey,
+                        elevation: 0,
+                        color: Colors.deepPurple,
+                        child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 70, vertical: 15),
+                            child: const Text('Crear',
+                                style: TextStyle(color: Colors.white))),
+                        onPressed: () {
+                          FocusScope.of(context).unfocus();
+                          crearConsulta(motivo.text, dateTime, dateTimefin,
+                              _value, context);
+                        }),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 50),
-          // const Text('Crear una nueva cuenta', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          // const SizedBox(height: 50),
-        ],
-      ),
+            const SizedBox(height: 50),
+            // const Text('Crear una nueva cuenta', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            // const SizedBox(height: 50),
+          ],
+        );
+      })),
     );
   }
 
@@ -213,5 +227,44 @@ class _CrearConsultaScreenState extends State<CrearConsultaScreen> {
     if (newTime == null) return null;
 
     return newTime;
+  }
+
+  crearConsulta(String motivo, DateTime inicio, DateTime fin, int idusuario,
+      BuildContext context) async {
+    mostrarLoading(context);
+    final token = SharedPreferencesMemory().obtenerToken();
+    final url = ServerProvider().url;
+    final response = await http.post(Uri.parse(url + '/api/crearConsulta'),
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({
+          'motivo': motivo,
+          'inicio': inicio.toString(),
+          'fin': fin.toString(),
+          'idusuario': idusuario.toString()
+        }));
+    final respuesta = jsonDecode(response.body);
+    // print(respuesta);
+    Navigator.pop(context);
+    if (200 == response.statusCode) {
+      // serverProvider.token = respuesta['token'];
+      Navigator.pushReplacementNamed(context, 'consulta');
+    } else {
+      final mensajeErroneo = jsonEncode(respuesta['mensaje']);
+      mostrarAlerta(context, 'Error', mensajeErroneo);
+      // return ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Row(
+      //       children: [
+      //         const Icon(Icons.close),
+      //         const SizedBox(width: 20),
+      //         Expanded(child: Text(mensajeErroneo))
+      //       ],
+      //     ),
+      //   ),
+      // );
+    }
   }
 }
