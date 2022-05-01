@@ -8,7 +8,8 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
 class NotificationService {
-  static final NotificationService _notificationService = NotificationService._internal();
+  static final NotificationService _notificationService =
+      NotificationService._internal();
   late PusherClient pusher;
   late Channel channel;
 
@@ -16,40 +17,44 @@ class NotificationService {
     return _notificationService;
   }
 
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
   NotificationService._internal();
 
   Future<void> initNotificacion() async {
     final AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('app_icon');
-  
+        AndroidInitializationSettings('app_icon');
+
     final IOSInitializationSettings initializationSettingsIOS =
         IOSInitializationSettings(
       requestSoundPermission: false,
       requestBadgePermission: false,
       requestAlertPermission: false,
     );
-  
+
     final InitializationSettings initializationSettings =
         InitializationSettings(
-          android: initializationSettingsAndroid, 
-          iOS: initializationSettingsIOS, 
-          macOS: null
-        );
-  
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: (payload) {
-      keyNavegacionNotificacion.currentState!.pushNamed('notificacion');
-    },);
+            android: initializationSettingsAndroid,
+            iOS: initializationSettingsIOS,
+            macOS: null);
+
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onSelectNotification: (payload) {
+        keyNavegacionNotificacion.currentState!.pushNamed('notificacion');
+      },
+    );
 
     await initPusher();
   }
 
-  Future<void> showNotificacion(int id, String title, String body, int seconds) async {
+  Future<void> showNotificacion(
+      int id, String title, String body, int seconds) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
-      id, 
-      title, 
-      body, 
+      id,
+      title,
+      body,
       tz.TZDateTime.now(tz.local).add(Duration(seconds: seconds)),
       const NotificationDetails(
         android: AndroidNotificationDetails(
@@ -58,7 +63,7 @@ class NotificationService {
           channelDescription: 'Main channel notifications',
           importance: Importance.max,
           priority: Priority.max,
-          icon: 'app_icon',  
+          icon: 'app_icon',
         ),
         iOS: IOSNotificationDetails(
           sound: 'default.wav',
@@ -68,7 +73,8 @@ class NotificationService {
         ),
       ),
       payload: 'test',
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
       androidAllowWhileIdle: true,
     );
   }
@@ -78,29 +84,31 @@ class NotificationService {
 
     pusher = new PusherClient(
       "72febab278198d502232",
-      PusherOptions(
-        cluster: "us2"
-      ),
+      PusherOptions(cluster: "us2"),
       enableLogging: true,
     );
 
     channel = pusher.subscribe("my-channel");
 
     pusher.onConnectionStateChange((state) {
-      print("previousState: ${state!.previousState}, currentState: ${state.currentState}");
+      print(
+          "previousState: ${state!.previousState}, currentState: ${state.currentState}");
     });
 
     final id = SharedPreferencesMemory().obtenerId();
+    print('hola');
+    print(id);
 
-    channel.bind('my-event_paciente_${id}', (event) {
-
-      // print('456');
-      // print(event!.data.toString());
-      // print('77777777');
-      var respuesta = jsonDecode(event!.data!);
-      showNotificacion(1,
-      'Creaste una nueva consulta', 
-      "Motivo:${respuesta[0]['motivo']} Fecha y Hora de inicio: ${respuesta[0]['inicio']}", 5);
+    channel.bind('my-event_paciente_'+id, (event) {
+      print('456');
+      print(event!.data.toString());
+      print('77777777');
+      var respuesta = jsonDecode(event.data!);
+      showNotificacion(
+          1,
+          'Creaste una nueva consulta',
+          "Motivo: ${respuesta[0]['motivo']} Fecha y Hora de inicio: ${respuesta[0]['inicio']}",
+          5);
     });
-  }  
+  }
 }

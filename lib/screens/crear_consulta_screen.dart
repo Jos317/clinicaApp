@@ -104,7 +104,10 @@ class _CrearConsultaScreenState extends State<CrearConsultaScreen> {
                     ),
                     onChanged: (value) => value,
                     validator: (value) {
-                      return (value != null) ? null : 'Ingrese el motivo';
+                      if (value!.isEmpty) {
+                        return 'Ingrese el motivo';
+                      }
+                      return null;
                     },
                     controller: motivo,
                   ),
@@ -135,7 +138,6 @@ class _CrearConsultaScreenState extends State<CrearConsultaScreen> {
                     value: _value,
                     onChanged: (value) => setState(() {
                       _value = value!;
-                      print(_value);
                     }),
                   ),
                   const SizedBox(height: 30),
@@ -250,7 +252,7 @@ class _CrearConsultaScreenState extends State<CrearConsultaScreen> {
     Navigator.pop(context);
     if (200 == response.statusCode) {
       // serverProvider.token = respuesta['token'];
-      Navigator.pushReplacementNamed(context, 'consulta');
+      Navigator.pop(context);
     } else {
       final mensajeErroneo = jsonEncode(respuesta['mensaje']);
       mostrarAlerta(context, 'Error', mensajeErroneo);

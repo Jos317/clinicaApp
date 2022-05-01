@@ -13,8 +13,8 @@ final keyNavegacionNotificacion = GlobalKey<NavigatorState>(debugLabel: 'Texto')
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   tz.initializeTimeZones();
-  NotificationService().initNotificacion();
   await SharedPreferencesMemory().init();
+  NotificationService().initNotificacion();
   runApp(MyApp());
 } 
 

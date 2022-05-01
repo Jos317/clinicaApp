@@ -1,3 +1,4 @@
+import 'package:clinica/services/notification_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesMemory{
@@ -24,7 +25,8 @@ class SharedPreferencesMemory{
   }
 
   setearId(int id) async{
-    await prefs.setString('id', id.toString());  
+    await prefs.setString('id', id.toString());
+    NotificationService().initNotificacion();  
   }
 
   obtenerId() {
