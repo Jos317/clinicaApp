@@ -50,29 +50,29 @@ class NavBar extends StatelessWidget {
             title: const Text('Consultas'),
             onTap: () => Navigator.pushReplacementNamed(context, 'consulta'),
           ),
-          ListTile(
-            leading: const Icon(Icons.notifications),
-            title: const Text('Request'),
-            onTap: () => {
-              Navigator.pushReplacementNamed(context, 'notificacion')
-            },
-            trailing: ClipOval(
-              child: Container(
-                color: Colors.red,
-                width: 20,
-                height: 20,
-                child: const Center(
-                  child: Text(
-                    '8',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // ListTile(
+          //   leading: const Icon(Icons.notifications),
+          //   title: const Text('Request'),
+          //   onTap: () => {
+          //     Navigator.pushReplacementNamed(context, 'notificacion')
+          //   },
+          //   trailing: ClipOval(
+          //     child: Container(
+          //       color: Colors.red,
+          //       width: 20,
+          //       height: 20,
+          //       child: const Center(
+          //         child: Text(
+          //           '8',
+          //           style: TextStyle(
+          //             color: Colors.white,
+          //             fontSize: 12,
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           const Divider(),
           ListTile(
             title: const Text('Exit'),

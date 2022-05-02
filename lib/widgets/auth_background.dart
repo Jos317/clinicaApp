@@ -24,7 +24,7 @@ class _HeaderIcon extends StatelessWidget {
       child: Container(
         width: double.infinity,
         margin: EdgeInsets.only(top: 30),
-        child: Icon(Icons.person_pin, color: Colors.white, size: 100),
+        child: Icon(Icons.personal_injury_sharp, color: Colors.white, size: 100),
       ),
     );
   }

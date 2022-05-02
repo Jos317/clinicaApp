@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:clinica/models/medico_model.dart';
+import 'package:clinica/providers/consulta_provider.dart';
 import 'package:clinica/providers/providers.dart';
 import 'package:clinica/services/medicos_service.dart';
 import 'package:clinica/services/shared_preferences.dart';
@@ -252,21 +253,11 @@ class _CrearConsultaScreenState extends State<CrearConsultaScreen> {
     Navigator.pop(context);
     if (200 == response.statusCode) {
       // serverProvider.token = respuesta['token'];
-      Navigator.pop(context);
+      Provider.of<ConsultaProvider>(context, listen: false).consultas = null;
+      Navigator.pushReplacementNamed(context, 'consulta');
     } else {
       final mensajeErroneo = jsonEncode(respuesta['mensaje']);
       mostrarAlerta(context, 'Error', mensajeErroneo);
-      // return ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //     content: Row(
-      //       children: [
-      //         const Icon(Icons.close),
-      //         const SizedBox(width: 20),
-      //         Expanded(child: Text(mensajeErroneo))
-      //       ],
-      //     ),
-      //   ),
-      // );
     }
   }
 }

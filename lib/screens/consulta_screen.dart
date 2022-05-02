@@ -25,10 +25,6 @@ class _ConsultaScreenState extends State<ConsultaScreen> {
     Provider.of<ConsultaProvider>(context, listen: false).setConsultas();
   }
 
-  eliminar(int id) async {
-
-  }
-
   @override
   Widget build(BuildContext context) {
     final consultaProvider =
@@ -167,8 +163,8 @@ class _ConsultaScreenState extends State<ConsultaScreen> {
                               child: Row(
                                 children: <Widget>[
                                   ElevatedButton.icon(
-                                      onPressed: () async{
-                                        showAlertDialog2(context);
+                                      onPressed: () {
+                                        showAlertDialog2(context, consulta.id);
                                         // await eliminar(consulta.id);
                                       },
                                       label: const Text('Eliminar'),

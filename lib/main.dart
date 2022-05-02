@@ -5,8 +5,6 @@ import 'package:clinica/services/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:clinica/screens/screens.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
 final keyNavegacionNotificacion = GlobalKey<NavigatorState>(debugLabel: 'Texto');
@@ -31,13 +29,12 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         navigatorKey: keyNavegacionNotificacion,
         debugShowCheckedModeBanner: false,
-        title: 'ClinicaApp',
+        title: 'Nitabara',
         initialRoute: 'login',
         routes: {
           'login': (_) => LoginScreen(),
           'home': (_) => HomeScreen(),
           'paciente': (_) => PacienteScreen(),
-          'editar': (_) => EditarPerfilScreen(),
           'consulta': (_) => ConsultaScreen(),
           'crear': (_) => CrearConsultaScreen(),
           'notificacion': (_) => NotificacionScreen(),

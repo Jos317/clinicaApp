@@ -31,19 +31,8 @@ class _PacienteState extends State<PacienteScreen> {
       appBar: AppBar(
         backgroundColor: Colors.deepPurpleAccent,
         elevation: 1,
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.edit,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, 'editar');
-            },
-          ),
-        ],
         centerTitle: true,
-        title: const Text('Clinica App'),
+        title: const Text('Clínica Nitabara'),
       ),
       drawer: NavBar(),
       // body: Center(
@@ -111,6 +100,8 @@ class _PacienteState extends State<PacienteScreen> {
                   SizedBox(
                     height: 35,
                   ),
+                  Text('Nombre:',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                   TextFormField(
                       enabled: false,
                       decoration: InputDecorations.authInputDecoration(
@@ -121,6 +112,8 @@ class _PacienteState extends State<PacienteScreen> {
                   SizedBox(
                     height: 35,
                   ),
+                  Text('Apellido:',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                   TextFormField(
                       enabled: false,
                       decoration: InputDecorations.authInputDecoration(
@@ -131,6 +124,8 @@ class _PacienteState extends State<PacienteScreen> {
                   SizedBox(
                     height: 35,
                   ),
+                  Text('CI:',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                   TextFormField(
                       enabled: false,
                       decoration: InputDecorations.authInputDecoration(
@@ -141,6 +136,8 @@ class _PacienteState extends State<PacienteScreen> {
                   SizedBox(
                     height: 35,
                   ),
+                  Text('Teléfono:',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                   TextFormField(
                       enabled: false,
                       decoration: InputDecorations.authInputDecoration(
@@ -151,6 +148,8 @@ class _PacienteState extends State<PacienteScreen> {
                   SizedBox(
                     height: 35,
                   ),
+                  Text('Dirección:',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                   TextFormField(
                       enabled: false,
                       decoration: InputDecorations.authInputDecoration(
@@ -161,6 +160,8 @@ class _PacienteState extends State<PacienteScreen> {
                   SizedBox(
                     height: 35,
                   ),
+                  Text('Sexo:',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                   TextFormField(
                       enabled: false,
                       decoration: InputDecorations.authInputDecoration(
@@ -171,6 +172,8 @@ class _PacienteState extends State<PacienteScreen> {
                   SizedBox(
                     height: 35,
                   ),
+                  Text('Fecha de Nacimiento:',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                   TextFormField(
                       enabled: false,
                       decoration: InputDecorations.authInputDecoration(
@@ -181,6 +184,8 @@ class _PacienteState extends State<PacienteScreen> {
                   SizedBox(
                     height: 35,
                   ),
+                  Text('Email:',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                   TextFormField(
                       enabled: false,
                       decoration: InputDecorations.authInputDecoration(
