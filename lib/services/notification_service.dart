@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:clinica/main.dart';
 import 'package:clinica/services/shared_preferences.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pusher_client/pusher_client.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -64,6 +65,8 @@ class NotificationService {
           importance: Importance.max,
           priority: Priority.max,
           icon: 'app_icon',
+          styleInformation: BigTextStyleInformation(''),
+          color: Color.fromARGB(0, 27, 34, 232)
         ),
         iOS: IOSNotificationDetails(
           sound: 'default.wav',
